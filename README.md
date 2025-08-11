@@ -1,4 +1,3 @@
-Hospital Management System
 1.Description
 This project is a Hospital Management System web application built with React (frontend) and Node.js / Express (backend).
 It allows administrators to log in securely, manage personnel records (add, edit, delete), and manage job roles within the hospital.
