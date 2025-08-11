@@ -15,7 +15,17 @@ const Job = () => {
         }
       }).catch(err => console.log(err))
   }, [])
-
+const handleDelete = (id) => {
+    axios
+      .delete("http://localhost:3000/auth/delete_job/" + id) // Appel API DELETE
+      .then((result) => {
+        if (result.data.Status) {
+          window.location.reload(); // Si suppression réussie alors recharge de la page
+        } else {
+          alert(result.data.Error);
+        }
+      });
+  };
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
@@ -30,6 +40,7 @@ const Job = () => {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +48,12 @@ const Job = () => {
             {job.map((j) => (
               <tr key={j.id}>
                 <td>{j.name}</td>
+                <td><button
+                    className="btn btn-warning btn-sm"
+                    onClick={() => handleDelete(j.id)}
+                  >
+                    Delete
+                  </button></td>
               </tr>
             ))}
           </tbody>

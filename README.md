@@ -1,10 +1,10 @@
-1.Description
+1.Description:
 This project is a Hospital Management System web application built with React (frontend) and Node.js / Express (backend).
 It allows administrators to log in securely, manage personnel records (add, edit, delete), and manage job roles within the hospital.
 
 The backend uses JWT-based authentication stored in HTTP cookies to secure admin sessions. The app supports uploading personnel's information and images and displays summary statistics on the dashboard.
 
-2.Features
+2.Features:
 Secure admin login with JWT stored in cookies
 
 CRUD operations for personnel records (including image upload)
@@ -15,14 +15,14 @@ Dashboard displaying counts and admin list
 
 Responsive UI built with React and Bootstrap
 
-3.Technologies
+3.Technologies:
 Frontend: React, React Router, Axios, Bootstrap
 
 Backend: Node.js, Express, MySQL, Multer (file upload), bcrypt (password hashing), JSON Web Tokens (JWT)
 
 Database: MySQL
 
-4.Installation
+4.Installation:
 Clone the repo
 
 -Backend setup:
@@ -43,7 +43,7 @@ Clone the repo
 
  Start the React app: npm start
 
-5.Usage
+5.Usage:
 Open your browser at http://localhost:5173
 
 Server port: 3000
@@ -56,7 +56,7 @@ Add/edit/delete personnel and upload profile images
 
 Logout securely to clear your session cookie
 
-6.API Endpoints
+6.API Endpoints:
 POST /auth/adminlogin : Admin login with email & password, returns JWT cookie
 
 GET /auth/personnel : Get personnel list
@@ -73,7 +73,7 @@ POST /auth/add_job : Add new job role
 
 GET /auth/logout : Logout and clear JWT cookie
 
-7.Notes
+7.Notes:
 Passwords are hashed with bcrypt before storing
 
 JWT tokens are signed and stored in HTTP-only cookies

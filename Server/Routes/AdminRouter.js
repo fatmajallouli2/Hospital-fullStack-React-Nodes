@@ -50,6 +50,15 @@ router.get("/job", (req, res) => {
   });
 });
 
+// Route DELETE pour supprimer un job en fonction de son ID
+router.delete("/delete_job/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "delete from job where id = ?";
+  con.query(sql, [id], (err, result) => {
+    if (err) return res.json({ Status: false, Error: "Query Error" + err });
+    return res.json({ Status: true, Result: result });
+  });
+});
 // Route GET pour récupérer la liste de tout le personnel
 router.get("/personnel", (req, res) => {
   const sql = "SELECT * FROM personnel";
