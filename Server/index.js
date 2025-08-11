@@ -12,7 +12,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json()); //// Middleware pour parser le JSON reçu dans le corps des requêtes
+app.use(express.json()); // Middleware pour parser le JSON reçu dans le corps des requêtes
 app.use(cookieParser());
 app.use("/auth", adminRouter);
 app.use(express.static("public"));

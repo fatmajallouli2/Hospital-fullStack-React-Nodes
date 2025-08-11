@@ -4,23 +4,24 @@ import { Link } from "react-router-dom";
 
 const Job = () => {
   const [job, setJob] = useState([]);
+  // récupérer la liste des jobs à partir du backend
+  useEffect(() => {
+    axios.get('http://localhost:3000/auth/job')
+      .then(result => {
+        if (result.data.Status) {
+          setJob(result.data.Result);
+        } else {
+          alert(result.data.Error)
+        }
+      }).catch(err => console.log(err))
+  }, [])
 
-    useEffect(()=> {
-        axios.get('http://localhost:3000/auth/job')
-        .then(result => {
-            if(result.data.Status) {
-                setJob(result.data.Result);
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
-    }, [])
- 
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
         <h3>Job List</h3>
       </div>
+      {/* Bouton Lien vers la page d'ajout d'un nouveau job */}
       <Link to="/dashboard/add_job" className="btn btn-success">
         Add Job
       </Link>
@@ -32,6 +33,7 @@ const Job = () => {
             </tr>
           </thead>
           <tbody>
+            {/* Parcours la liste des jobs pour afficher chaque job dans une ligne du tableau */}
             {job.map((j) => (
               <tr key={j.id}>
                 <td>{j.name}</td>

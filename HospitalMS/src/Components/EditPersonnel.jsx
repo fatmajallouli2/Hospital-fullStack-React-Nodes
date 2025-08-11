@@ -3,52 +3,53 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const EditPersonnel = () => {
-    const {id} = useParams()
-    const [personnel, setPersonnel] = useState({
-        name: "",
-        email: "",
-        salary: "",
-        address: "",
-        job_id: "",
-      });
-      const [job, setJob] = useState([])
-      const navigate = useNavigate()
+  const { id } = useParams()  // Récupérer l'id du personnel à éditer depuis l'URL
+  const [personnel, setPersonnel] = useState({ // État local pour stocker les données du personnel à éditer
+    name: "",
+    email: "",
+    salary: "",
+    address: "",
+    job_id: "",
+  });
+  const [job, setJob] = useState([]) // État local pour stocker la liste des jobs disponibles
+  const navigate = useNavigate()
+  // useEffect s'exécute au montage du composant
+  useEffect(() => {
+    axios.get('http://localhost:3000/auth/job') // Récupérer la liste des jobs depuis le backend
+      .then(result => {
+        if (result.data.Status) {
+          setJob(result.data.Result);
+        } else {
+          alert(result.data.Error)
+        }
+      }).catch(err => console.log(err))
+    // Récupérer les données du personnel à modifier via son id
+    axios.get('http://localhost:3000/auth/personnel/' + id)
+      .then(result => {
+        setPersonnel({ // Mettre à jour l'état 'personnel' avec les données reçues
+          ...personnel,
+          name: result.data.Result[0].name,
+          email: result.data.Result[0].email,
+          address: result.data.Result[0].address,
+          salary: result.data.Result[0].salary,
+          job_id: result.data.Result[0].job_id,
+        })
+      }).catch(err => console.log(err))
+  }, [])
 
-      useEffect(()=> {
-        axios.get('http://localhost:3000/auth/job')
-        .then(result => {
-            if(result.data.Status) {
-                setJob(result.data.Result);
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // Envoi des nouvelles données au backend via une requête PUT
+    axios.put('http://localhost:3000/auth/edit_personnel/' + id, personnel)
+      .then(result => {
+        if (result.data.Status) {
+          navigate('/dashboard/personnel') // Redirection vers la liste du personnel en cas de succès
+        } else {
+          alert(result.data.Error)
+        }
+      }).catch(err => console.log(err))
+  }
 
-        axios.get('http://localhost:3000/auth/personnel/'+id)
-        .then(result => {
-            setPersonnel({
-                ...personnel,
-                name: result.data.Result[0].name,
-                email: result.data.Result[0].email,
-                address: result.data.Result[0].address,
-                salary: result.data.Result[0].salary,
-                job_id: result.data.Result[0].job_id,
-            })
-        }).catch(err => console.log(err))
-    }, [])
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.put('http://localhost:3000/auth/edit_personnel/'+id, personnel)
-        .then(result => {
-            if(result.data.Status) {
-                navigate('/dashboard/personnel')
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
-    }
-    
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
@@ -122,13 +123,13 @@ const EditPersonnel = () => {
               job
             </label>
             <select name="job" id="job" className="form-select"
-                onChange={(e) => setPersonnel({...personnel, job_id: e.target.value})}>
+              onChange={(e) => setPersonnel({ ...personnel, job_id: e.target.value })}>
               {job.map((c) => {
-                return <option key ={c.id} value={c.id}>{c.name}</option>;
+                return <option key={c.id} value={c.id}>{c.name}</option>;
               })}
             </select>
           </div>
-          
+
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
               Edit personnel

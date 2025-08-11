@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddPersonnel = () => {
+  // État pour stocker les valeurs du formulaire du personnel à ajouter
   const [personnel, setPersonnel] = useState({
     name: "",
     email: "",
@@ -12,9 +13,10 @@ const AddPersonnel = () => {
     job_id: "",
     image: "",
   });
+  // État pour stocker la liste des jobs disponibles
   const [job, setJob] = useState([]);
   const navigate = useNavigate();
-
+  // récupère la liste des jobs dès le montage du composant
   useEffect(() => {
     axios
       .get("http://localhost:3000/auth/job")
@@ -27,10 +29,9 @@ const AddPersonnel = () => {
       })
       .catch((err) => console.log(err));
   }, []);
-
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
+    e.preventDefault(); // Empêche le rechargement de la page par défaut
+    const formData = new FormData(); // Création d'un objet FormData pour pouvoir envoyer un fichier (image)
     formData.append("name", personnel.name);
     formData.append("email", personnel.email);
     formData.append("password", personnel.password);
@@ -43,7 +44,7 @@ const AddPersonnel = () => {
       .post("http://localhost:3000/auth/add_personnel", formData)
       .then((result) => {
         if (result.data.Status) {
-          navigate("/dashboard/personnel");
+          navigate("/dashboard/personnel"); // Redirection vers la page du personnel
         } else {
           alert(result.data.Error);
         }
@@ -55,6 +56,7 @@ const AddPersonnel = () => {
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
         <h3 className="text-center">Add Personnel</h3>
+        {/* Formulaire d'ajout de personnel */}
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
             <label htmlFor="inputName" className="form-label">
@@ -127,28 +129,19 @@ const AddPersonnel = () => {
               }
             />
           </div>
+          {/* Sélecteur de job */}
           <div className="col-12">
             <label htmlFor="job" className="form-label">
               job
             </label>
-            <select
-              name="job"
-              id="job"
-              className="form-select­ "
-              value={personnel.job_id}
-              onChange={(e) =>
-                setPersonnel({ ...personnel, job_id: e.target.value })
-              }
-            >
+            <select name="job" id="job" className="form-select"
+              onChange={(e) => setPersonnel({ ...personnel, job_id: e.target.value })}>
               {job.map((c) => {
-                return (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                );
+                return <option key={c.id} value={c.id}>{c.name}</option>;
               })}
             </select>
           </div>
+          {/* Champ image */}
           <div className="col-12 mb-3">
             <label className="form-label" htmlFor="inputGroupFile01">
               Select Image

@@ -5,8 +5,8 @@ const AddJob = () => {
   const [job, setJob] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3000/auth/add_job", { job })
+    // Envoi d'une requête POST vers le backend avec la donnée job
+    axios.post("http://localhost:3000/auth/add_job", { job })
       .then((result) => {
         if (result.data.Status) {
           navigate("/dashboard/job");
@@ -26,6 +26,7 @@ const AddJob = () => {
             <label htmlFor="job">
               <strong>Job:</strong>
             </label>
+            {/* Champ texte pour saisir le nom du job, met à jour l'état 'job' au changement */}
             <input
               type="text"
               name="job"
