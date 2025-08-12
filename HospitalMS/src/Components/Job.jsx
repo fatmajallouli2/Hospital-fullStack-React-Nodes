@@ -15,7 +15,7 @@ const Job = () => {
         }
       }).catch(err => console.log(err))
   }, [])
-const handleDelete = (id) => {
+  const handleDelete = (id) => {
     axios
       .delete("http://localhost:3000/auth/delete_job/" + id) // Appel API DELETE
       .then((result) => {
@@ -49,11 +49,11 @@ const handleDelete = (id) => {
               <tr key={j.id}>
                 <td>{j.name}</td>
                 <td><button
-                    className="btn btn-warning btn-sm"
-                    onClick={() => handleDelete(j.id)}
-                  >
-                    Delete
-                  </button></td>
+                  className="btn btn-warning btn-sm"
+                  onClick={() => handleDelete(j.id)}
+                >
+                  Delete
+                </button></td>
               </tr>
             ))}
           </tbody>

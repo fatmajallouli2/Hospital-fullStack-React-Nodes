@@ -41,7 +41,7 @@ Clone the repo
 
  Install dependencies: npm install
 
- Start the React app: npm start
+ Start the React app: npm run dev
 
 5.Usage:
 Open your browser at http://localhost:5173
